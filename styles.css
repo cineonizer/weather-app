@@ -1,0 +1,55 @@
+.nav-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #474749;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.search-container {
+  width: fit-content;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+svg {
+  width: 20px;
+  height: 20px;
+  fill: white;
+  padding: 8.5px 8.5px 0 0;
+}
+
+.search-input {
+  width: 400px;
+  height: 25px;
+  border: none;
+  border-bottom: 1.5px solid grey;
+  background-color: #474749;
+  color: white;
+}
+
+.search-input:focus {
+  outline: none;
+  color: white;
+}
+
+.search-input ~ .search-line {
+  position: absolute;
+  bottom: 0;
+  left: 28px;
+  width: 0;
+  height: 1.5px;
+  background-color: white;
+}
+
+.search-input:focus ~ .search-line {
+  width: 93.5%;
+  transition: 0.5s;
+}
