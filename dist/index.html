@@ -6,15 +6,32 @@
     <title>Weather or not...</title>
   </head>
   <body>
-    <div class="main-container">
-      <div class="nav-container">
-        <div class="search-container">
-          <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-search" viewBox="0 0 16 16">
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-          </svg>
-          <input class="search-input" type="text" placeholder="Weather in your city">
-          <span class="search-line"></span>
-        </div>
+    <div class="nav-container">
+      <div class="search-container">
+        <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" viewBox="0 0 16 16">
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+        <input class="search-input" type="text" placeholder="Weather in your city">
+        <span class="search-line"></span>
+      </div>
+      <div class="toggle-container">
+        <label class="switch">
+          <input type="checkbox" checked>
+          <div class="slider round">
+            <span class="on">&#8457;</span>
+            <span class="off">&#8451;</span>
+          </div>        
+        </label>
+      </div>
+    </div>
+    <div class="current-container">
+      <div class="textual-container">
+        <div class="city-title">Long Beach</div>
+        <div class="weather-description">Partly Cloudy</div>
+        <div class="weather-degrees">61&#176</div>
+      </div>
+      <div class="graphical-container">
+        <img src="https://s7d2.scene7.com/is/image/TWCNews/clouds_jpg_jpg-2" alt="">
       </div>
     </div>
 
