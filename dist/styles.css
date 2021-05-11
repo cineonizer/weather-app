@@ -4,6 +4,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
+  overflow: hidden;
 }
 
 .nav-container {
@@ -85,7 +86,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ffe9cc;
+  background-color: #ff8873;
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }
@@ -103,11 +104,11 @@ body {
 }
 
 input:checked + .slider {
-  background-color: #ffe9cc;
+  background-color: #ff8873;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #e68c33;
 }
 
 input:checked + .slider:before {
@@ -116,12 +117,12 @@ input:checked + .slider:before {
   transform: translateX(34px);
 }
 
-.on {
+.f-unit {
   display: none;
 }
 
-.on,
-.off {
+.f-unit,
+.c-unit {
   color: #474749;
   position: absolute;
   transform: translate(-50%, -25%);
@@ -131,29 +132,23 @@ input:checked + .slider:before {
   user-select: none;
 }
 
-.on {
+.f-unit {
   top: 7px;
 }
 
-.off {
+.c-unit {
   left: auto;
   right: -5px;
   top: 7px;
 }
 
-input:checked+ .slider .on {
+input:checked+ .slider .f-unit {
   display: block;
 }
 
-input:checked + .slider .off {
+input:checked + .slider .c-unit {
   display: none;
 }
-
-
-/*--------- END --------*/
-
-
-/* Rounded sliders */
 
 .slider.round {
   border-radius: 17px;
@@ -165,7 +160,7 @@ input:checked + .slider .off {
 
 .current-container {
   width: 100%;
-  height: 200px;
+  height: 175px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -178,6 +173,7 @@ input:checked + .slider .off {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 400px;
 }
 
 .city-title {
@@ -192,10 +188,67 @@ input:checked + .slider .off {
   font-weight: bold;
   font-size: 4em;
   margin: 10px 0;
+}
 
+.graphical-container {
+  width: 400px;
+  display: flex;
+  justify-content: center;
 }
 
 .graphical-container img {
-  width: 150px;
+  width: 200px;
+  height: 100px;
+}
+
+.hourly-container {
+  height: 200px;
+  background-color: #ffe9cc;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.day {
+  width: 100%;
+  margin: 0 0 10px 50%;
+}
+
+.all-hours {
+  height: 75%;
+  width: 75%;
+  max-width: 50%;
+  border-top: 1px solid #474749;
+  border-bottom: 1px solid #474749;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow-x: scroll;
+}
+
+.weather-hour {
+  margin: 0 10px;
   height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hour {
+  font-size: 1.25em;
+}
+
+.meridiem {
+  font-size: 0.75em;
+}
+
+.icon {
+  height: 75px;
+  width: 75px;
+}
+
+.weather {
+  font-size: 1.5em;
 }
