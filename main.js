@@ -16,7 +16,37 @@
   \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"config\": () => (/* binding */ config)\n/* harmony export */ });\n// eslint-disable-next-line import/prefer-default-export\nconst config = {\n  APIKey: 'afd89dd73b573903df763aa27e7298aa',\n  units: 'imperial',\n};\n\n\n//# sourceURL=webpack://weather-app/./src/Modules/config.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst config = {\n  API_KEY: 'afd89dd73b573903df763aa27e7298aa',\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (config);\n\n\n//# sourceURL=webpack://weather-app/./src/Modules/config.js?");
+
+/***/ }),
+
+/***/ "./src/Modules/currentweather.js":
+/*!***************************************!*\
+  !*** ./src/Modules/currentweather.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst fetchCurrentWeatherData = async function fetchCurrentWeatherData(city, APIKey, units) {\n  try {\n    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}&units=${units}`, { mode: 'cors' });\n    const data = await response.json();\n    const currentWeatherData = {\n      coord: data.coord, // returns { lat, long }\n      main: data.main, // returns { feels_like, humidity, pressure, temp, temp_max, temp_min }\n      name: data.name, // returns 'name'\n      sys: data.sys, // returns { country, id, sunrise, sunset, type }\n      weather: data.weather[0], // returns { description, icon, id, main }\n      wind: data.wind, // returns { deg, speed }\n    };\n    return currentWeatherData;\n  } catch (error) {\n    return false;\n  }\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (fetchCurrentWeatherData);\n\n\n//# sourceURL=webpack://weather-app/./src/Modules/currentweather.js?");
+
+/***/ }),
+
+/***/ "./src/Modules/dom.js":
+/*!****************************!*\
+  !*** ./src/Modules/dom.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./config */ \"./src/Modules/config.js\");\n/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helper */ \"./src/Modules/helper.js\");\n/* harmony import */ var _currentweather__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./currentweather */ \"./src/Modules/currentweather.js\");\n\n\n\n\nconst searchBar = document.querySelector('.search-input');\nconst unitsToggleBtn = document.querySelector('.unit-toggle');\nconst cityNameDiv = document.querySelector('.city-title');\nconst weatherDegDiv = document.querySelector('.weather-degrees');\nconst weatherDescDiv = document.querySelector('.weather-description');\n\nlet units = 'imperial';\nlet weatherData = {};\n\nconst setCityName = function setCityNameUsingWeatherData(city) {\n  cityNameDiv.textContent = city;\n};\n\nconst setWeatherDescription = function setWeatherDescriptionUsingWeatherData(description) {\n  weatherDescDiv.textContent = (0,_helper__WEBPACK_IMPORTED_MODULE_1__.capitalizeDescription)(description);\n};\n\nconst setWeatherDegrees = function setWeatherDegreesUsingWeatherData(degrees) {\n  weatherDegDiv.textContent = `${Math.floor(degrees)}\\u00B0`;\n};\n\nconst displayWeather = function displayWeatherAfterUserSearches() {\n  searchBar.addEventListener('keydown', async (e) => {\n    if (e.key === 'Enter') {\n      weatherData = await (0,_currentweather__WEBPACK_IMPORTED_MODULE_2__.default)(searchBar.value, _config__WEBPACK_IMPORTED_MODULE_0__.default.API_KEY, units);\n      setCityName(weatherData.name);\n      setWeatherDegrees(weatherData.main.temp);\n      setWeatherDescription(weatherData.weather.description);\n    }\n  });\n};\n\nconst toggleUnits = function toggleImperialOrMetric() {\n  units = unitsToggleBtn.checked ? 'imperial' : 'metric';\n  weatherData.main.temp = (units === 'imperial') ? (0,_helper__WEBPACK_IMPORTED_MODULE_1__.convertToFahrenheit)(weatherData.main.temp) : (0,_helper__WEBPACK_IMPORTED_MODULE_1__.convertToCelsius)(weatherData.main.temp);\n};\n\nunitsToggleBtn.addEventListener('click', () => {\n  toggleUnits();\n  setWeatherDegrees(weatherData.main.temp);\n});\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (displayWeather);\n\n\n//# sourceURL=webpack://weather-app/./src/Modules/dom.js?");
+
+/***/ }),
+
+/***/ "./src/Modules/helper.js":
+/*!*******************************!*\
+  !*** ./src/Modules/helper.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"capitalizeDescription\": () => (/* binding */ capitalizeDescription),\n/* harmony export */   \"convertToCelsius\": () => (/* binding */ convertToCelsius),\n/* harmony export */   \"convertToFahrenheit\": () => (/* binding */ convertToFahrenheit)\n/* harmony export */ });\nconst capitalizeDescription = function capitalizeFirstCharOfWeatherDescription(lowerDescription) {\n  let descrArr = lowerDescription.split(' ');\n  descrArr = descrArr.map((word) => word[0].toUpperCase() + word.slice(1));\n  const upperDescription = descrArr.join(' ');\n  return upperDescription;\n};\n\nconst convertToCelsius = function convertToCelsiusFromFahrenheit(fahrenheit) {\n  const celsius = (fahrenheit - 32) * (5 / 9);\n  return celsius;\n};\n\nconst convertToFahrenheit = function convertToFahrenheitFromCelsius(Celsius) {\n  const fahrenheit = (Celsius * (9 / 5)) + 32;\n  return fahrenheit;\n};\n\n\n\n\n//# sourceURL=webpack://weather-app/./src/Modules/helper.js?");
 
 /***/ }),
 
@@ -26,7 +56,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Modules_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Modules/config */ \"./src/Modules/config.js\");\n// eslint-disable-next-line import/named\n\n\nconst searchBar = document.querySelector('.search-input');\n\nconst fetchWeather = async () => {\n  const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${searchBar.value}&appid=${_Modules_config__WEBPACK_IMPORTED_MODULE_0__.config.APIKey}&units=${_Modules_config__WEBPACK_IMPORTED_MODULE_0__.config.units}`, { mode: 'cors' });\n  const weatherData = await response.json();\n  console.log(weatherData);\n};\n\nsearchBar.addEventListener('click', fetchWeather);\n\n\n//# sourceURL=webpack://weather-app/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Modules_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Modules/dom */ \"./src/Modules/dom.js\");\n\n\n(0,_Modules_dom__WEBPACK_IMPORTED_MODULE_0__.default)();\n\n\n//# sourceURL=webpack://weather-app/./src/index.js?");
 
 /***/ })
 
