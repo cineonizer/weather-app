@@ -1,3 +1,7 @@
+import fromUnixTime from 'date-fns/fromUnixTime';
+import format from 'date-fns/format';
+import { utcToZonedTime } from 'date-fns-tz';
+
 const capitalizeDescription = function capitalizeFirstCharOfWeatherDescription(lowerDescription) {
   let descrArr = lowerDescription.split(' ');
   descrArr = descrArr.map((word) => word[0].toUpperCase() + word.slice(1));
@@ -15,4 +19,16 @@ const convertToFahrenheit = function convertToFahrenheitFromCelsius(Celsius) {
   return fahrenheit;
 };
 
-export { capitalizeDescription, convertToCelsius, convertToFahrenheit };
+const convertUnix = function convertUnixToHour(unix, timezone) {
+  const date = fromUnixTime(unix);
+  console.log(date.toLocaleString());
+  const localDate = utcToZonedTime(date, timezone);
+  console.log(localDate);
+};
+
+export {
+  capitalizeDescription,
+  convertToCelsius,
+  convertToFahrenheit,
+  convertUnix,
+};

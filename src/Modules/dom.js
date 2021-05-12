@@ -3,6 +3,7 @@ import {
   capitalizeDescription,
   convertToCelsius,
   convertToFahrenheit,
+  convertUnix,
 } from './helper';
 import fetchCurrentWeatherData from './currentweather';
 import fetchHourlyWeatherData from './hourlyweather';
@@ -43,6 +44,11 @@ const displayWeather = function displayWeatherAfterUserSearches() {
         setCityName(currentWeatherData.name);
         setWeatherDegrees(currentWeatherData.temp);
         setWeatherDescription(currentWeatherData.description);
+      }
+      if (hourlyWeatherData) {
+        console.log(hourlyWeatherData[0].dt);
+        console.log(hourlyWeatherData.timezone);
+        convertUnix(hourlyWeatherData[0].dt, hourlyWeatherData.timezone);
       }
     }
   });
