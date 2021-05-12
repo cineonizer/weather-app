@@ -5,6 +5,7 @@ import {
   convertToFahrenheit,
 } from './helper';
 import fetchCurrentWeatherData from './currentweather';
+import fetchHourlyWeatherData from './hourlyweather';
 
 const searchBar = document.querySelector('.search-input');
 const unitsToggleBtn = document.querySelector('.unit-toggle');
@@ -13,7 +14,8 @@ const weatherDegDiv = document.querySelector('.weather-degrees');
 const weatherDescDiv = document.querySelector('.weather-description');
 
 let units = 'imperial';
-let weatherData = {};
+let currentWeatherData = {};
+let hourlyWeatherData = {};
 
 const setCityName = function setCityNameUsingWeatherData(city) {
   cityNameDiv.textContent = city;
@@ -30,22 +32,30 @@ const setWeatherDegrees = function setWeatherDegreesUsingWeatherData(degrees) {
 const displayWeather = function displayWeatherAfterUserSearches() {
   searchBar.addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
-      weatherData = await fetchCurrentWeatherData(searchBar.value, config.API_KEY, units);
-      setCityName(weatherData.name);
-      setWeatherDegrees(weatherData.main.temp);
-      setWeatherDescription(weatherData.weather.description);
+      currentWeatherData = await fetchCurrentWeatherData(searchBar.value, config.API_KEY, units);
+      hourlyWeatherData = await fetchHourlyWeatherData(
+        currentWeatherData.lat,
+        currentWeatherData.lon,
+        config.API_KEY,
+        units,
+      );
+      if (currentWeatherData) {
+        setCityName(currentWeatherData.name);
+        setWeatherDegrees(currentWeatherData.temp);
+        setWeatherDescription(currentWeatherData.description);
+      }
     }
   });
 };
 
 const toggleUnits = function toggleImperialOrMetric() {
   units = unitsToggleBtn.checked ? 'imperial' : 'metric';
-  weatherData.main.temp = (units === 'imperial') ? convertToFahrenheit(weatherData.main.temp) : convertToCelsius(weatherData.main.temp);
+  currentWeatherData.temp = (units === 'imperial') ? convertToFahrenheit(currentWeatherData.temp) : convertToCelsius(currentWeatherData.temp);
 };
 
 unitsToggleBtn.addEventListener('click', () => {
   toggleUnits();
-  setWeatherDegrees(weatherData.main.temp);
+  setWeatherDegrees(currentWeatherData.temp);
 });
 
 export default displayWeather;
