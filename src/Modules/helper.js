@@ -1,34 +1,36 @@
 import fromUnixTime from 'date-fns/fromUnixTime';
-import format from 'date-fns/format';
 import { utcToZonedTime } from 'date-fns-tz';
 
-const capitalizeDescription = function capitalizeFirstCharOfWeatherDescription(lowerDescription) {
+const getDescription = function capitalizeFirstCharOfWeatherDescription(lowerDescription) {
   let descrArr = lowerDescription.split(' ');
   descrArr = descrArr.map((word) => word[0].toUpperCase() + word.slice(1));
   const upperDescription = descrArr.join(' ');
   return upperDescription;
 };
 
-const convertToCelsius = function convertToCelsiusFromFahrenheit(fahrenheit) {
+const getCelsius = function convertToCelsiusFromFahrenheit(fahrenheit) {
   const celsius = (fahrenheit - 32) * (5 / 9);
   return celsius;
 };
 
-const convertToFahrenheit = function convertToFahrenheitFromCelsius(Celsius) {
+const getFahrenheit = function convertToFahrenheitFromCelsius(Celsius) {
   const fahrenheit = (Celsius * (9 / 5)) + 32;
   return fahrenheit;
 };
 
-const convertUnix = function convertUnixToHour(unix, timezone) {
-  const date = fromUnixTime(unix);
-  console.log(date.toLocaleString());
+const getTime = function convertUnixToLocalHour(timestamp, timezone) {
+  const date = fromUnixTime(timestamp);
   const localDate = utcToZonedTime(date, timezone);
-  console.log(localDate);
+  let localHour = localDate.getHours();
+  const meridiem = (localHour < 12) ? 'AM' : 'PM';
+  if (localHour > 12) localHour -= 12;
+  else if (localHour === 0) localHour = 12;
+  return [localHour, meridiem];
 };
 
 export {
-  capitalizeDescription,
-  convertToCelsius,
-  convertToFahrenheit,
-  convertUnix,
+  getDescription,
+  getCelsius,
+  getFahrenheit,
+  getTime,
 };

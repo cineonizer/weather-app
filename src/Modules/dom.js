@@ -1,9 +1,9 @@
 import config from './config';
 import {
-  capitalizeDescription,
-  convertToCelsius,
-  convertToFahrenheit,
-  convertUnix,
+  getDescription,
+  getCelsius,
+  getFahrenheit,
+  getTime,
 } from './helper';
 import fetchCurrentWeatherData from './currentweather';
 import fetchHourlyWeatherData from './hourlyweather';
@@ -18,16 +18,27 @@ let units = 'imperial';
 let currentWeatherData = {};
 let hourlyWeatherData = {};
 
-const setCityName = function setCityNameUsingWeatherData(city) {
+const setCityName = function setCurrentCityName(city) {
   cityNameDiv.textContent = city;
 };
 
-const setWeatherDescription = function setWeatherDescriptionUsingWeatherData(description) {
-  weatherDescDiv.textContent = capitalizeDescription(description);
+const setWeatherDescription = function setCurrentWeatherDescription(description) {
+  weatherDescDiv.textContent = getDescription(description);
 };
 
-const setWeatherDegrees = function setWeatherDegreesUsingWeatherData(degrees) {
+const setWeatherDegrees = function setCurrentWeatherDegrees(degrees) {
   weatherDegDiv.textContent = `${Math.floor(degrees)}\u00B0`;
+};
+
+const setWeatherTime = function setHourlyWeatherTime(time, iconID) {
+  const [hour, meridiem] = [time[0], time[1]];
+  const hourDiv = document.createElement('div');
+  hourDiv.classList.add('hour');
+  hourDiv.textContent = hour;
+
+  const imgDiv = document.createElement('img');
+  imgDiv.classList.add('icon');
+  imgDiv.src = `http://openweathermap.org/img/wn/${iconID}@2x.png`;
 };
 
 const displayWeather = function displayWeatherAfterUserSearches() {
@@ -44,11 +55,11 @@ const displayWeather = function displayWeatherAfterUserSearches() {
         setCityName(currentWeatherData.name);
         setWeatherDegrees(currentWeatherData.temp);
         setWeatherDescription(currentWeatherData.description);
-      }
-      if (hourlyWeatherData) {
-        console.log(hourlyWeatherData[0].dt);
-        console.log(hourlyWeatherData.timezone);
-        convertUnix(hourlyWeatherData[0].dt, hourlyWeatherData.timezone);
+        hourlyWeatherData.hours.forEach((element) => {
+          console.log(getTime(element.dt, hourlyWeatherData.timezone));
+          console.log(element.icon);
+          console.log(element.temp);
+        });
       }
     }
   });
@@ -56,7 +67,7 @@ const displayWeather = function displayWeatherAfterUserSearches() {
 
 const toggleUnits = function toggleImperialOrMetric() {
   units = unitsToggleBtn.checked ? 'imperial' : 'metric';
-  currentWeatherData.temp = (units === 'imperial') ? convertToFahrenheit(currentWeatherData.temp) : convertToCelsius(currentWeatherData.temp);
+  currentWeatherData.temp = (units === 'imperial') ? getFahrenheit(currentWeatherData.temp) : getCelsius(currentWeatherData.temp);
 };
 
 unitsToggleBtn.addEventListener('click', () => {
