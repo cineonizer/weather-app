@@ -22,7 +22,7 @@ const fetchCurrentWeatherData = async function fetchCurrentWeatherData(city, API
     return currentWeatherData;
   } catch (error) {
     // eslint-disable-next-line no-alert
-    alert('No city found');
+    alert(`${city} was not found. Try a different city.`);
     return false;
   }
 };

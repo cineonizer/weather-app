@@ -1,22 +1,10 @@
-import config from './config';
-import {
-  getDescription,
-  getCelsius,
-  getFahrenheit,
-  getTime,
-} from './helper';
-import fetchCurrentWeatherData from './currentweather';
-import fetchHourlyWeatherData from './hourlyweather';
+import { getDescription } from './helper';
 
-const searchBar = document.querySelector('.search-input');
-const unitsToggleBtn = document.querySelector('.unit-toggle');
 const cityNameDiv = document.querySelector('.city-title');
 const weatherDegDiv = document.querySelector('.weather-degrees');
 const weatherDescDiv = document.querySelector('.weather-description');
-
-let units = 'imperial';
-let currentWeatherData = {};
-let hourlyWeatherData = {};
+const allHoursDiv = document.querySelector('.all-hours');
+const dayDiv = document.querySelector('.day');
 
 const setCityName = function setCurrentCityName(city) {
   cityNameDiv.textContent = city;
@@ -30,49 +18,49 @@ const setWeatherDegrees = function setCurrentWeatherDegrees(degrees) {
   weatherDegDiv.textContent = `${Math.floor(degrees)}\u00B0`;
 };
 
-const setWeatherTime = function setHourlyWeatherTime(time, iconID) {
+const setWeatherTime = function setHourlyWeatherTime(time, iconID, degrees) {
   const [hour, meridiem] = [time[0], time[1]];
+  const weatherHourContainerDiv = document.createElement('div');
   const hourDiv = document.createElement('div');
+  const merdiemSpan = document.createElement('span');
+  const imgDiv = document.createElement('img');
+  const weatherDiv = document.createElement('div');
+
+  weatherHourContainerDiv.classList.add('weather-hour');
+
   hourDiv.classList.add('hour');
   hourDiv.textContent = hour;
+  weatherHourContainerDiv.appendChild(hourDiv);
 
-  const imgDiv = document.createElement('img');
+  merdiemSpan.classList.add('meridiem');
+  merdiemSpan.textContent = meridiem;
+  hourDiv.appendChild(merdiemSpan);
+
   imgDiv.classList.add('icon');
   imgDiv.src = `http://openweathermap.org/img/wn/${iconID}@2x.png`;
+  weatherHourContainerDiv.appendChild(imgDiv);
+
+  weatherDiv.classList.add('weather');
+  weatherDiv.textContent = `${Math.floor(degrees)}\u00B0`;
+  weatherHourContainerDiv.appendChild(weatherDiv);
+
+  allHoursDiv.appendChild(weatherHourContainerDiv);
 };
 
-const displayWeather = function displayWeatherAfterUserSearches() {
-  searchBar.addEventListener('keydown', async (e) => {
-    if (e.key === 'Enter') {
-      currentWeatherData = await fetchCurrentWeatherData(searchBar.value, config.API_KEY, units);
-      hourlyWeatherData = await fetchHourlyWeatherData(
-        currentWeatherData.lat,
-        currentWeatherData.lon,
-        config.API_KEY,
-        units,
-      );
-      if (currentWeatherData) {
-        setCityName(currentWeatherData.name);
-        setWeatherDegrees(currentWeatherData.temp);
-        setWeatherDescription(currentWeatherData.description);
-        hourlyWeatherData.hours.forEach((element) => {
-          console.log(getTime(element.dt, hourlyWeatherData.timezone));
-          console.log(element.icon);
-          console.log(element.temp);
-        });
-      }
-    }
-  });
+const resetWeatherTime = function resetAllHourlyWeatherDivs() {
+  allHoursDiv.innerHTML = '';
 };
 
-const toggleUnits = function toggleImperialOrMetric() {
-  units = unitsToggleBtn.checked ? 'imperial' : 'metric';
-  currentWeatherData.temp = (units === 'imperial') ? getFahrenheit(currentWeatherData.temp) : getCelsius(currentWeatherData.temp);
+const setDay = function setDayOfTheWeek(time) {
+  const day = time[2];
+  dayDiv.textContent = day;
 };
 
-unitsToggleBtn.addEventListener('click', () => {
-  toggleUnits();
-  setWeatherDegrees(currentWeatherData.temp);
-});
-
-export default displayWeather;
+export {
+  setCityName,
+  setWeatherDegrees,
+  setWeatherDescription,
+  setWeatherTime,
+  resetWeatherTime,
+  setDay,
+};
