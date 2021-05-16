@@ -16,8 +16,9 @@ const fetchCurrentWeatherData = async function fetchCurrentWeatherData(city, API
       sunset: data.sys.sunset,
       description: data.weather[0].description,
       icon: data.weather[0].icon,
-      winDeg: data.wind.deg,
-      winSpeed: data.wind.speed,
+      visibility: data.visibility,
+      windDeg: data.wind.deg,
+      windSpeed: data.wind.speed,
     };
     return currentWeatherData;
   } catch (error) {

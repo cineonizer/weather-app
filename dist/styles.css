@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .nav-container {
@@ -210,7 +210,7 @@ input:checked + .slider .c-unit {
   align-items: center;
 }
 
-.day {
+.today {
   width: 100%;
   margin: 0 0 10px 50%;
 }
@@ -238,10 +238,12 @@ input:checked + .slider .c-unit {
 
 .hour {
   font-size: 1.25em;
+  color: #474749;
 }
 
 .meridiem {
   font-size: 0.75em;
+  color: #474749;
 }
 
 .icon {
@@ -249,6 +251,76 @@ input:checked + .slider .c-unit {
   width: 75px;
 }
 
-.weather {
+.hourly-weather {
   font-size: 1.5em;
+  color: #474749;
+}
+
+.daily-container {
+  padding-top: 25px;
+  display: flex;
+  justify-content: center;
+  background-color: #ffe9cc;
+}
+
+.all-days {
+  width: 50%;
+  height: 75%;
+}
+
+.weather-day {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.day {
+  width: 100px;
+  font-size: 1.15em;
+  color: #474749;
+}
+
+.daily-weather {
+  width: 110px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 1.5em;
+}
+
+.daytime-weather {
+  color: #474749;
+}
+
+.nighttime-weather {
+  color: #999999;
+}
+
+.footer-container {
+  height: 200px;
+  background-color: #474749;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+}
+
+.cell {
+  color: #ffffff;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  color: #999999;
+  font-size: 0.75em;
+  padding-bottom: 5px;
+}
+
+.value {
+  color: #ffffff;
+  font-size: 1.25em;
 }
