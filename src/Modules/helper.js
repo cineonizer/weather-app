@@ -93,6 +93,7 @@ const createFooterCell = function createFooterCellHelperFn(footerDiv, title, val
   const valueDiv = document.createElement('div');
 
   cellDiv.classList.add('cell');
+  // cellDiv.classList.add(title.split(' ')[0].toLowerCase());
   footerDiv.appendChild(cellDiv);
 
   titleDiv.classList.add('title');

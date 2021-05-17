@@ -19,6 +19,7 @@ import {
   setToday,
   setSunrise,
   setSunset,
+  setHumidity,
   setWind,
   setFeelsLike,
   setPressure,
@@ -27,7 +28,6 @@ import {
   resetWeatherHours,
   resetWeatherDays,
   resetFooterInfo,
-  setHumidity,
 } from './Modules/dom';
 
 const searchBar = document.querySelector('.search-input');
@@ -76,6 +76,7 @@ const setFooterInfo = function setAllFooterInformation() {
 const toggleUnits = function toggleImperialOrMetric() {
   units = unitsToggleBtn.checked ? 'imperial' : 'metric';
   currentWeatherData.temp = (units === 'imperial') ? getFahrenheit(currentWeatherData.temp) : getCelsius(currentWeatherData.temp);
+  currentWeatherData.feels_like = (units === 'imperial') ? getFahrenheit(currentWeatherData.feels_like) : getCelsius(currentWeatherData.feels_like);
   hourlyWeatherData.hours.forEach((element) => {
     const hourlyWeather = element;
     hourlyWeather.temp = (units === 'imperial') ? getFahrenheit(hourlyWeather.temp) : getCelsius(hourlyWeather.temp);
@@ -117,8 +118,10 @@ searchBar.addEventListener('keydown', async (e) => {
 unitsToggleBtn.addEventListener('click', () => {
   resetWeatherHours();
   resetWeatherDays();
+  resetFooterInfo();
   toggleUnits();
   setCurrentWeather();
   setHourlyWeather();
   setDailyWeather();
+  setFooterInfo();
 });

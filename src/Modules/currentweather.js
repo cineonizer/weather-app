@@ -1,3 +1,5 @@
+import { getMilesPerHour } from './helper';
+
 const fetchCurrentWeatherData = async function fetchCurrentWeatherData(city, APIKey, units) {
   try {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}&units=${units}`, { mode: 'cors' });
@@ -20,6 +22,7 @@ const fetchCurrentWeatherData = async function fetchCurrentWeatherData(city, API
       windDeg: data.wind.deg,
       windSpeed: data.wind.speed,
     };
+    currentWeatherData.windSpeed = (units === 'imperial') ? currentWeatherData.windSpeed : getMilesPerHour(currentWeatherData.windSpeed);
     return currentWeatherData;
   } catch (error) {
     // eslint-disable-next-line no-alert

@@ -1,4 +1,4 @@
-import { getDescription, createFooterCell, getMilesPerHour } from './helper';
+import { getDescription, createFooterCell } from './helper';
 
 const cityNameDiv = document.querySelector('.city-title');
 const weatherDegDiv = document.querySelector('.weather-degrees');
@@ -101,9 +101,8 @@ const setHumidity = function setHumdityDiv(humidity) {
   createFooterCell(footerDiv, 'HUMIDITY', `${humidity}%`);
 };
 
-const setWind = function setWindDirectionAndDegree(windDirection, windSpeed, units) {
-  const convertedWindSpeed = (units === 'imperial') ? windSpeed : getMilesPerHour(windSpeed);
-  createFooterCell(footerDiv, 'WIND', `${windDirection} ${convertedWindSpeed} mph`);
+const setWind = function setWindDirectionAndDegree(windDirection, windSpeed) {
+  createFooterCell(footerDiv, 'WIND', `${windDirection} ${windSpeed} mph`);
 };
 
 const setFeelsLike = function setFeelsLikeTemp(feels) {
