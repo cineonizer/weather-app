@@ -27,6 +27,7 @@ const getTime = function convertUnixToLocalHour(timestamp, timezone) {
   const localMinutes = (localDate.getMinutes() < 10 ? '0' : '') + localDate.getMinutes();
   const meridiem = (localHour < 12) ? 'AM' : 'PM';
   if (localHour > 12) localHour -= 12;
+  else if (localHour === 0) localHour = 12;
   return [localHour, localMinutes, meridiem, localDay];
 };
 
@@ -93,7 +94,6 @@ const createFooterCell = function createFooterCellHelperFn(footerDiv, title, val
   const valueDiv = document.createElement('div');
 
   cellDiv.classList.add('cell');
-  // cellDiv.classList.add(title.split(' ')[0].toLowerCase());
   footerDiv.appendChild(cellDiv);
 
   titleDiv.classList.add('title');
