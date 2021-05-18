@@ -2,6 +2,7 @@ import config from './Modules/config';
 import fetchCurrentWeatherData from './Modules/currentweather';
 import fetchHourlyWeatherData from './Modules/hourlyweather';
 import fetchDailyWeatherData from './Modules/dailyweather';
+import fetchStickerURL from './Modules/sticker';
 import {
   getCelsius,
   getFahrenheit,
@@ -25,6 +26,7 @@ import {
   setPressure,
   setVisibility,
   setUVI,
+  setSticker,
   resetWeatherHours,
   resetWeatherDays,
   resetFooterInfo,
@@ -90,19 +92,20 @@ const toggleUnits = function toggleImperialOrMetric() {
 
 searchBar.addEventListener('keydown', async (e) => {
   if (e.key === 'Enter') {
-    currentWeatherData = await fetchCurrentWeatherData(searchBar.value, config.API_KEY, units);
+    currentWeatherData = await fetchCurrentWeatherData(searchBar.value, config.WEATHER_KEY, units);
     hourlyWeatherData = await fetchHourlyWeatherData(
       currentWeatherData.lat,
       currentWeatherData.lon,
-      config.API_KEY,
+      config.WEATHER_KEY,
       units,
     );
     dailyWeatherData = await fetchDailyWeatherData(
       currentWeatherData.lat,
       currentWeatherData.lon,
-      config.API_KEY,
+      config.WEATHER_KEY,
       units,
     );
+    const stickerURL = await fetchStickerURL(currentWeatherData.description, config.GIF_KEY);
     if (currentWeatherData) {
       resetWeatherHours();
       resetWeatherDays();
@@ -110,6 +113,7 @@ searchBar.addEventListener('keydown', async (e) => {
       setCurrentWeather();
       setHourlyWeather();
       setDailyWeather();
+      setSticker(stickerURL);
       setFooterInfo();
     }
   }

@@ -7,6 +7,7 @@ const allHoursDiv = document.querySelector('.all-hours');
 const todayDiv = document.querySelector('.today');
 const allDaysDiv = document.querySelector('.all-days');
 const footerDiv = document.querySelector('.footer-container');
+const stickerDiv = document.querySelector('.sticker-gif');
 
 const setCityName = function setCurrentCityName(city) {
   cityNameDiv.textContent = city;
@@ -121,6 +122,10 @@ const setUVI = function setUVIndex(uvi) {
   createFooterCell(footerDiv, 'UV INDEX', `${uvi}`);
 };
 
+const setSticker = function setStickerGIF(stickerURL) {
+  stickerDiv.src = stickerURL;
+};
+
 const resetWeatherHours = function resetAllHourlyWeatherDivs() {
   allHoursDiv.innerHTML = '';
 };
@@ -148,6 +153,7 @@ export {
   setPressure,
   setVisibility,
   setUVI,
+  setSticker,
   resetWeatherHours,
   resetWeatherDays,
   resetFooterInfo,
