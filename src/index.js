@@ -39,24 +39,25 @@ let units = 'imperial';
 let currentWeatherData = {};
 let hourlyWeatherData = {};
 let dailyWeatherData = {};
+let stickerURL = '';
 
-const setCurrentWeather = function setAllTheFunctionsOfCurrentWeather() {
-  setCityName(currentWeatherData.name);
-  setWeatherDegrees(currentWeatherData.temp);
-  setWeatherDescription(currentWeatherData.description);
+const setCurrentWeather = function setAllTheFunctionsOfCurrentWeather(currentWeather) {
+  setCityName(currentWeather.name);
+  setWeatherDegrees(currentWeather.temp);
+  setWeatherDescription(currentWeather.description);
 };
 
-const setHourlyWeather = function setAllTheFunctionsOfHourlyWeather() {
-  setToday(getTime(hourlyWeatherData.hours[0].dt, hourlyWeatherData.timezone));
-  hourlyWeatherData.hours.forEach((element) => {
-    setWeatherHours(getTime(element.dt, hourlyWeatherData.timezone), element.icon, element.temp);
+const setHourlyWeather = function setAllTheFunctionsOfHourlyWeather(hourlyWeather) {
+  setToday(getTime(hourlyWeather.hours[0].dt, hourlyWeather.timezone));
+  hourlyWeather.hours.forEach((element) => {
+    setWeatherHours(getTime(element.dt, hourlyWeather.timezone), element.icon, element.temp);
   });
 };
 
-const setDailyWeather = function setAllTheFunctionsOfDailyWeather() {
-  dailyWeatherData.days.forEach((element) => {
+const setDailyWeather = function setAllTheFunctionsOfDailyWeather(dailyWeather) {
+  dailyWeather.days.forEach((element) => {
     setWeatherDays(
-      getTime(element.dt, dailyWeatherData.timezone),
+      getTime(element.dt, dailyWeather.timezone),
       element.icon,
       element.dayTemp,
       element.nightTemp,
@@ -64,15 +65,15 @@ const setDailyWeather = function setAllTheFunctionsOfDailyWeather() {
   });
 };
 
-const setFooterInfo = function setAllFooterInformation() {
-  setSunrise(getTime(currentWeatherData.sunrise, hourlyWeatherData.timezone));
-  setSunset(getTime(currentWeatherData.sunset, hourlyWeatherData.timezone));
-  setHumidity(currentWeatherData.humidity);
-  setWind(getWindDirection(currentWeatherData.windDeg), currentWeatherData.windSpeed, units);
-  setFeelsLike(currentWeatherData.feels_like);
-  setPressure(getInchOfMercury(currentWeatherData.pressure));
-  setVisibility(getMiles(currentWeatherData.visibility));
-  setUVI(hourlyWeatherData.uvi);
+const setFooterInfo = function setAllFooterInformation(currentWeather, hourlyWeather) {
+  setSunrise(getTime(currentWeather.sunrise, hourlyWeather.timezone));
+  setSunset(getTime(currentWeather.sunset, hourlyWeather.timezone));
+  setHumidity(currentWeather.humidity);
+  setWind(getWindDirection(currentWeather.windDeg), currentWeather.windSpeed, units);
+  setFeelsLike(currentWeather.feels_like);
+  setPressure(getInchOfMercury(currentWeather.pressure));
+  setVisibility(getMiles(currentWeather.visibility));
+  setUVI(hourlyWeather.uvi);
 };
 
 const toggleUnits = function toggleImperialOrMetric() {
@@ -90,6 +91,33 @@ const toggleUnits = function toggleImperialOrMetric() {
   });
 };
 
+const renderSampleWeather = async function onPageLoadSetLAWeather() {
+  currentWeatherData = await fetchCurrentWeatherData('Los Angeles', config.WEATHER_KEY, units);
+  hourlyWeatherData = await fetchHourlyWeatherData(
+    currentWeatherData.lat,
+    currentWeatherData.lon,
+    config.WEATHER_KEY,
+    units,
+  );
+  dailyWeatherData = await fetchDailyWeatherData(
+    currentWeatherData.lat,
+    currentWeatherData.lon,
+    config.WEATHER_KEY,
+    units,
+  );
+  stickerURL = await fetchStickerURL(currentWeatherData.description, config.GIF_KEY);
+  resetWeatherHours();
+  resetWeatherDays();
+  resetFooterInfo();
+  setCurrentWeather(currentWeatherData);
+  setHourlyWeather(hourlyWeatherData);
+  setDailyWeather(dailyWeatherData);
+  setFooterInfo(currentWeatherData, hourlyWeatherData);
+  setSticker(stickerURL);
+};
+
+window.addEventListener('load', () => renderSampleWeather());
+
 searchBar.addEventListener('keydown', async (e) => {
   if (e.key === 'Enter') {
     currentWeatherData = await fetchCurrentWeatherData(searchBar.value, config.WEATHER_KEY, units);
@@ -105,16 +133,16 @@ searchBar.addEventListener('keydown', async (e) => {
       config.WEATHER_KEY,
       units,
     );
-    const stickerURL = await fetchStickerURL(currentWeatherData.description, config.GIF_KEY);
+    stickerURL = await fetchStickerURL(currentWeatherData.description, config.GIF_KEY);
     if (currentWeatherData) {
       resetWeatherHours();
       resetWeatherDays();
       resetFooterInfo();
-      setCurrentWeather();
-      setHourlyWeather();
-      setDailyWeather();
+      setCurrentWeather(currentWeatherData);
+      setHourlyWeather(hourlyWeatherData);
+      setDailyWeather(dailyWeatherData);
+      setFooterInfo(currentWeatherData, hourlyWeatherData);
       setSticker(stickerURL);
-      setFooterInfo();
     }
   }
 });
@@ -124,8 +152,8 @@ unitsToggleBtn.addEventListener('click', () => {
   resetWeatherDays();
   resetFooterInfo();
   toggleUnits();
-  setCurrentWeather();
-  setHourlyWeather();
-  setDailyWeather();
-  setFooterInfo();
+  setCurrentWeather(currentWeatherData);
+  setHourlyWeather(hourlyWeatherData);
+  setDailyWeather(dailyWeatherData);
+  setFooterInfo(currentWeatherData, hourlyWeatherData);
 });
