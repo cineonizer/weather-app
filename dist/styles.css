@@ -4,6 +4,9 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
+}
+
+.main-wrapper {
   overflow-x: hidden;
 }
 
@@ -221,6 +224,7 @@ input:checked + .slider .c-unit {
   flex-direction: row;
   align-items: center;
   overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 .weather-hour {

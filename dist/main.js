@@ -446,7 +446,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst fetchStickerURL = async function fetchStickerURL(tag, APIKey) {\n  try {\n    const response = await fetch(`http://api.giphy.com/v1/stickers/random?tag=${tag}&api_key=${APIKey}`, { mode: 'cors' });\n    const data = await response.json();\n    const stickerURL = data.data.image_url;\n    return stickerURL;\n  } catch (error) {\n    return false;\n  }\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (fetchStickerURL);\n\n\n//# sourceURL=webpack://weather-app/./src/Modules/sticker.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst fetchStickerURL = async function fetchStickerURL(tag, APIKey) {\n  try {\n    const response = await fetch(`https://api.giphy.com/v1/stickers/random?tag=${tag}&api_key=${APIKey}`, { mode: 'cors' });\n    const data = await response.json();\n    const stickerURL = data.data.image_url;\n    return stickerURL;\n  } catch (error) {\n    return false;\n  }\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (fetchStickerURL);\n\n\n//# sourceURL=webpack://weather-app/./src/Modules/sticker.js?");
 
 /***/ }),
 
