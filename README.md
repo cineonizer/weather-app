@@ -12,7 +12,7 @@ Click [here](https://cineonizer.github.io/weather-app/) for a live preview of my
 
 ## Goal
 
-Create a weather forecast website using [weather API](https://openweathermap.org/api).
+Create a weather forecast website using [OpenWeatherMap API](https://openweathermap.org/api).
 
 ## Built With
 
